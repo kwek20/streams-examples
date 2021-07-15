@@ -1,6 +1,9 @@
 use iota_streams::{
     app::transport::tangle::client::Client,
-    app_channels::api::tangle::{Address, Author, ChannelType, Subscriber},
+    app_channels::api::{
+        pskid_from_psk,
+        tangle::{Address, Author, ChannelType, Subscriber},
+    },
     core::{println, psk::Psk, Result},
 };
 
@@ -40,10 +43,11 @@ pub fn example(node_url: &str) -> Result<()> {
     // Generate a key to be used as a Pre Shared Key
     let key = rand::thread_rng().gen::<[u8; 32]>();
 
-    // Author will now store a PSK to be used by Subscriber B. This will return a PskId (first half
-    // of key for usage in keyload generation)
+    // Author will now store a PSK to be used by Subscriber B. We will need to make a PSK
+    // for usage in keyload generation)
     let psk = Psk::clone_from_slice(&key);
-    let pskid = author.store_psk(psk);
+    let pskid = pskid_from_psk(&psk);
+    author.store_psk(pskid, psk);
 
     // ------------------------------------------------------------------
     // In their own separate instances generate the subscriber(s) that will be attaching to the channel
@@ -57,7 +61,7 @@ pub fn example(node_url: &str) -> Result<()> {
     subscriber.receive_announcement(&ann_address)?;
 
     // Store the PSK in the Subscriber instance
-    let _sub_pskid = subscriber.store_psk(Psk::clone_from_slice(&key));
+    let _sub_pskid = subscriber.store_psk(pskid, psk);
     // ----------------------------------------------------------------------
 
     // Author sends Keyload with PSK included

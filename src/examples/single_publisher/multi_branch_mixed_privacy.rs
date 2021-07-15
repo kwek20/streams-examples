@@ -1,7 +1,8 @@
 use iota_streams::{
     app::transport::tangle::client::Client,
-    app_channels::api::tangle::{
-        Address, Author, Bytes, ChannelType, PublicKey, Subscriber, UnwrappedMessage,
+    app_channels::api::{
+        pskid_from_psk,
+        tangle::{Address, Author, Bytes, ChannelType, PublicKey, Subscriber, UnwrappedMessage},
     },
     core::{println, psk::Psk, Result},
 };
@@ -41,7 +42,8 @@ pub fn example(node_url: &str) -> Result<()> {
     // Author will now store a PSK to be used by Subscriber B. This will return a PskId (first half
     // of key for usage in keyload generation)
     let psk = Psk::clone_from_slice(&key);
-    let pskid = author.store_psk(psk);
+    let pskid = pskid_from_psk(&psk);
+    author.store_psk(pskid, psk);
 
     // ------------------------------------------------------------------
     // In their own separate instances generate the subscriber(s) that will be attaching to the channel
@@ -70,7 +72,8 @@ pub fn example(node_url: &str) -> Result<()> {
 
     // Sub B stores PSK shared by Author
     let psk = Psk::clone_from_slice(&key);
-    let _sub_pskid = subscriber_b.store_psk(psk);
+    let _sub_pskid = pskid_from_psk(&psk);
+    subscriber_b.store_psk(pskid, psk);
 
     // This is the subscription link that should be provided to the Author to complete subscription
     // for user A
