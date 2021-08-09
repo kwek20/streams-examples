@@ -55,8 +55,8 @@ pub fn example(node_url: &str) -> Result<()> {
     let subscribe_msg_a = subscriber_a.send_subscribe(&ann_address)?;
     let subscribe_msg_b = subscriber_b.send_subscribe(&ann_address)?;
 
-    let sub_a_pk = subscriber_a.get_pk().as_bytes();
-    let sub_b_pk = subscriber_b.get_pk().as_bytes();
+    let sub_a_pk = subscriber_a.get_public_key().as_bytes();
+    let sub_b_pk = subscriber_b.get_public_key().as_bytes();
 
     // These are the subscription links that should be provided to the Author to complete
     // subscription for users A and B

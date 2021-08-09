@@ -59,8 +59,8 @@ pub fn example(node_url: &str) -> Result<()> {
              sub_msg_a_str, subscribe_msg_a, sub_msg_b_str, subscribe_msg_b);
 
     // These are the public keys that the Author will use to specify specific users in a keyload
-    let sub_a_pk = subscriber_a.get_pk().as_bytes();
-    let sub_b_pk = subscriber_b.get_pk().as_bytes();
+    let sub_a_pk = subscriber_a.get_public_key().as_bytes();
+    let sub_b_pk = subscriber_b.get_public_key().as_bytes();
     // ----------------------------------------------------------------------
 
     // Get Address objects from subscription message links provided by expectant subscribers

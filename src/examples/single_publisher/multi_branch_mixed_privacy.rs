@@ -68,7 +68,7 @@ pub fn example(node_url: &str) -> Result<()> {
     let subscribe_msg_a = subscriber_a.send_subscribe(&ann_address)?;
 
     // Fetch sub A public key (for use by author in issuing a keyload)
-    let sub_a_pk = subscriber_a.get_pk().as_bytes();
+    let sub_a_pk = subscriber_a.get_public_key().as_bytes();
 
     // Sub B stores PSK shared by Author
     let psk = Psk::clone_from_slice(&key);

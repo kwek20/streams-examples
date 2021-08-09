@@ -80,9 +80,9 @@ pub fn example(node_url: &str) -> Result<()> {
     );
 
     // Fetch subscriber public keys (for use by author in issuing a keyload)
-    let sub_a_pk = subscriber_a.get_pk().as_bytes();
-    let sub_b_pk = subscriber_b.get_pk().as_bytes();
-    let sub_c_pk = subscriber_c.get_pk().as_bytes();
+    let sub_a_pk = subscriber_a.get_public_key().as_bytes();
+    let sub_b_pk = subscriber_b.get_public_key().as_bytes();
+    let sub_c_pk = subscriber_c.get_public_key().as_bytes();
 
     // We'll use this to sort messages on the retrieval end
     let pks = vec![
